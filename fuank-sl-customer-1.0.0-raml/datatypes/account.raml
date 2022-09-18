@@ -1,0 +1,11 @@
+#%RAML 1.0 DataType
+description: Structure of the Account record expected on GET and POST actions.
+type: object
+properties:
+  customerId:
+    description: ID to reference Account to Cosmos and salesforce. 
+    type: string 
+  personalInformation?: !include account-object.raml
+  address?: 
+    type: array
+    items: !include address.raml

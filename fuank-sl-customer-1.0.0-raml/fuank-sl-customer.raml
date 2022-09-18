@@ -1,0 +1,61 @@
+#%RAML 1.0
+title: fuank-sl-customer
+description: Fuank System API for Salesforce and CosmosDB
+mediaType: [application/json]
+protocols: [HTTPS]
+version: v1
+
+types:
+  Account: !include datatypes/account.raml
+  updateAccount: !include datatypes/update-account.raml
+traits:
+  errorResponse: !include traits/errorTrait.raml
+
+/customer:
+  post:
+      is: [errorResponse]
+      displayName: Add customer account to salesforce  and cosmo DB
+      description: Add customer accounts
+      body:
+          application/json:
+            type: Account   
+            examples:
+              output: !include examples/success/post-patch-account-example.raml
+      responses:
+          201:
+            description: Success
+            body:
+              application/json:
+                example:
+                  message: customerAccounts created      
+
+  /{uniqueCustomerId}:
+    get:
+      is: [errorResponse]
+      displayName: Get customerAccount by customerId
+      description: Retrieves an customerAccount detail based on unique customerId
+      responses:
+        200:
+          description: Success
+          body:
+            application/json:
+              type: Account
+              examples:
+                output: !include examples/success/accountObject.raml
+
+    patch:
+          is: [errorResponse]
+          displayName: Update entire customerAccount by ID
+          description: Endpoint to replace all values of the associated account.
+          body: 
+            application/json:
+              description: The given expected object should contain all fields for
+              type: updateAccount
+              examples:
+                output: !include examples/success/account-updated.raml
+          responses:
+            200:
+              body: 
+                application/json:
+                  example: 
+                    message: Dedicated customerAccount updated successfully and it's valid.
